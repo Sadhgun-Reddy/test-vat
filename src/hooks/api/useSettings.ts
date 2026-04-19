@@ -100,3 +100,68 @@ export const useUpdateBudgetAllocation = () => {
     },
   });
 };
+
+// --- Reference Data Hooks (used across multiple features) ---
+
+export const useFinancialYears = () => {
+  return useQuery({
+    queryKey: queryKeys.settings.financialYears(),
+    queryFn: settingsService.getFinancialYears,
+    staleTime: Infinity, // Financial years don't change often
+  });
+};
+
+export const useSchemes = () => {
+  return useQuery({
+    queryKey: queryKeys.settings.schemes(),
+    queryFn: settingsService.getSchemes,
+    staleTime: Infinity,
+  });
+};
+
+export const useQuarters = (financialYearId?: ID) => {
+  return useQuery({
+    queryKey: queryKeys.settings.quarters(financialYearId),
+    queryFn: () => settingsService.getQuarters(financialYearId),
+    staleTime: Infinity,
+  });
+};
+
+export const useDistricts = () => {
+  return useQuery({
+    queryKey: queryKeys.districts.all(),
+    queryFn: settingsService.getDistricts,
+    staleTime: Infinity, // Districts are static
+  });
+};
+
+export const useInstitutionTypes = () => {
+  return useQuery({
+    queryKey: queryKeys.settings.institutionTypes(),
+    queryFn: settingsService.getInstitutionTypes,
+    staleTime: Infinity,
+  });
+};
+
+export const usePlacesOfWorking = (filters?: QueryFilters) => {
+  return useQuery({
+    queryKey: queryKeys.settings.placesOfWorking(filters),
+    queryFn: () => settingsService.getPlacesOfWorking(filters),
+  });
+};
+
+export const useBudgetAllocationsForIndent = (
+  filters?: {
+    scheme_id?: ID;
+    financial_year_id?: ID;
+    quarter_id?: ID;
+    institution_type_id?: ID;
+  },
+  options?: { enabled?: boolean }
+) => {
+  return useQuery({
+    queryKey: queryKeys.settings.budgetForIndent(filters),
+    queryFn: () => settingsService.getBudgetAllocationsForIndent(filters),
+    enabled: options?.enabled,
+  });
+};

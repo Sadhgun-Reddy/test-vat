@@ -24,7 +24,9 @@ export type DrugSale = {
   soldAt: string;
 };
 
-export type CreateDrugSalePayload = Omit<DrugSale, 'id' | 'soldAt' | 'soldBy'>;
+export type CreateDrugSalePayload = Partial<Omit<DrugSale, 'id' | 'soldAt' | 'soldBy'>> & {
+  [key: string]: any;
+};
 
 export type DrugAllocation = {
   id: ID;

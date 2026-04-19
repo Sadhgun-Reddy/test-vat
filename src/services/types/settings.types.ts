@@ -36,3 +36,56 @@ export type Budget = {
   financialYear: string;
   status: 'active' | 'exhausted' | 'pending';
 };
+
+export type FinancialYear = {
+  id: ID;
+  label: string; // e.g. "2024-25"
+  startDate: string;
+  endDate: string;
+  isActive: boolean;
+};
+
+export type Scheme = {
+  id: ID;
+  name: string;
+  code?: string;
+  description?: string;
+  isActive: boolean;
+};
+
+export type Quarter = {
+  id: ID;
+  label: string; // e.g. "Q1", "Q2"
+  financialYearId: ID;
+  startDate: string;
+  endDate: string;
+};
+
+export type District = {
+  id: ID;
+  name: string;
+  stateCode?: string;
+};
+
+export type InstitutionType = {
+  id: ID;
+  name: string;
+  code?: string;
+};
+
+export type PlaceOfWorking = {
+  id: ID;
+  name: string;
+  district?: string;
+  type?: string;
+};
+
+export type BudgetAllocationForIndent = {
+  id: ID;
+  schemeId: ID;
+  financialYearId: ID;
+  quarterId: ID;
+  allocatedAmount: number;
+  usedAmount: number;
+  availableAmount: number;
+};
