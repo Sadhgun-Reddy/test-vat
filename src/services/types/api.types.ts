@@ -12,4 +12,5 @@ export type QueryFilters = {
   search?: string;
   sortBy?: string;
   sortOrder?: 'asc' | 'desc';
+  [key: string]: any;
 };

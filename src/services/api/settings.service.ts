@@ -76,3 +76,67 @@ export const updateBudgetAllocation = async (id: ID, payload: Partial<Budget>): 
   const { data } = await apiClient.put<ApiResponse<Budget>>(`/budget/${id}`, payload);
   return data.data;
 };
+
+import {
+  BudgetAllocationForIndent,
+  District,
+  FinancialYear,
+  InstitutionType,
+  PlaceOfWorking,
+  Quarter,
+  Scheme,
+} from '../types/settings.types';
+
+/** Get all financial years */
+export const getFinancialYears = async (): Promise<FinancialYear[]> => {
+  const { data } = await apiClient.get<ApiResponse<FinancialYear[]>>('/settings/financial-years');
+  return data.data;
+};
+
+/** Get all schemes */
+export const getSchemes = async (): Promise<Scheme[]> => {
+  const { data } = await apiClient.get<ApiResponse<Scheme[]>>('/settings/schemes');
+  return data.data;
+};
+
+/** Get all quarters, optionally filtered by financial year */
+export const getQuarters = async (financialYearId?: ID): Promise<Quarter[]> => {
+  const { data } = await apiClient.get<ApiResponse<Quarter[]>>('/settings/quarters', {
+    params: financialYearId ? { financialYearId } : undefined,
+  });
+  return data.data;
+};
+
+/** Get all districts */
+export const getDistricts = async (): Promise<District[]> => {
+  const { data } = await apiClient.get<ApiResponse<District[]>>('/districts');
+  return data.data;
+};
+
+/** Get all institution types (different from institutions list) */
+export const getInstitutionTypes = async (): Promise<InstitutionType[]> => {
+  const { data } = await apiClient.get<ApiResponse<InstitutionType[]>>('/institution-types');
+  return data.data;
+};
+
+/** Get all places of working */
+export const getPlacesOfWorking = async (filters?: QueryFilters): Promise<PlaceOfWorking[]> => {
+  const { data } = await apiClient.get<ApiResponse<PlaceOfWorking[]>>('/places-of-working', {
+    params: filters,
+  });
+  return data.data;
+};
+
+/** Get budget allocations filtered for indent/sale use */
+export const getBudgetAllocationsForIndent = async (filters?: {
+  scheme_id?: ID;
+  financial_year_id?: ID;
+  quarter_id?: ID;
+  institution_type_id?: ID;
+}): Promise<BudgetAllocationForIndent[]> => {
+  const { data } = await apiClient.get<ApiResponse<BudgetAllocationForIndent[]>>(
+    '/settings/budget-allocations/for-indent',
+    { params: filters }
+  );
+  return data.data;
+};
