@@ -14,6 +14,20 @@ export const queryKeys = {
     detail: (id: string | number) => ['cases', 'detail', id] as const,
   },
 
+  // Procurement
+  procurement: {
+    indents: (f?: any) => ['procurement', 'indents', f] as const,
+    indentDetail: (id: any) => ['procurement', 'indents', id] as const,
+    purchaseOrders: (f?: any) => ['procurement', 'purchaseOrders', f] as const,
+    purchaseOrderDetail: (id: any) => ['procurement', 'purchaseOrders', id] as const,
+    goodsReceipts: (f?: any) => ['procurement', 'goodsReceipts', f] as const,
+    goodsReceiptDetail: (id: any) => ['procurement', 'goodsReceipts', id] as const,
+    vendorPayments: (f?: any) => ['procurement', 'vendorPayments', f] as const,
+    vendorPaymentDetail: (id: any) => ['procurement', 'vendorPayments', id] as const,
+    vendors: (f?: any) => ['procurement', 'vendors', f] as const,
+    purchases: (f?: any) => ['procurement', 'purchases', f] as const,
+    purchasesForPO: (f?: any) => ['procurement', 'purchasesForPO', f] as const,
+  },
   // Drugs
   drugs: {
     all: () => ['drugs'] as const,
@@ -46,5 +60,12 @@ export const queryKeys = {
     designations: () => ['settings', 'designations'] as const,
     policies: (filters?: Record<string, unknown>) => ['settings', 'policies', filters] as const,
     budget: (filters?: Record<string, unknown>) => ['settings', 'budget', filters] as const,
+    financialYears: () => ['settings', 'financial-years'] as const,
+    schemes: () => ['settings', 'schemes'] as const,
+    quarters: (fyId?: any) => ['settings', 'quarters', fyId] as const,
+    districts: () => ['settings', 'districts'] as const,
+    institutionTypes: () => ['settings', 'institution-types'] as const,
+    placesOfWorking: (filters?: any) => ['settings', 'places-of-working', filters] as const,
+    budgetForIndent: (filters?: any) => ['settings', 'budgetForIndent', filters] as const,
   },
 } as const;

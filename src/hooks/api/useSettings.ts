@@ -129,7 +129,7 @@ export const useQuarters = (financialYearId?: ID) => {
 
 export const useDistricts = () => {
   return useQuery({
-    queryKey: queryKeys.districts.all(),
+    queryKey: queryKeys.settings.districts(),
     queryFn: settingsService.getDistricts,
     staleTime: Infinity, // Districts are static
   });

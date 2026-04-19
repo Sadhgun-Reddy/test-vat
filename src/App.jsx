@@ -33,7 +33,7 @@ const ReportsPage = lazy(() => import('./pages/reports/ReportsPage'));
 const ReportDetailPage = lazy(() => import('./pages/reports/ReportDetailPage'));
 const IoTPage = lazy(() => import('./pages/iot/IoTPage'));
 const SyncPage = lazy(() => import('./pages/sync/SyncPage'));
-const SettingsPage = lazy(() => import('./pages/settings/SettingsPage'));
+const SettingsPage = lazy(() => import('./features/settings/SettingsPage'));
 const DailyProgressPage = lazy(() => import('./pages/dashboard/DailyProgressPage'));
 
 // Citizen / Farmer module
