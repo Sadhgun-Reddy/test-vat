@@ -1,0 +1,244 @@
+/* src/index.css — VAHD AHIS 2026 Design System */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Backgrounds */
+  --bg:    #ffffff;
+  --bg1:   #f8faff;
+  --bg2:   #f0f4fd;
+  --bg3:   #e4eaf8;
+  --bg4:   #d6dff5;
+
+  /* Brand blue */
+  --blu:    #1a56db;
+  --blu2:   #1e429f;
+  --blu3:   #3b82f6;
+  --blu-lt: #eff6ff;
+  --blu-mid:#dbeafe;
+  --blu-bdr:#bfdbfe;
+
+  /* Gold */
+  --gld:    #b5871a;
+  --gld2:   #d4a520;
+  --gld3:   #f59e0b;
+  --gld-lt: #fffbeb;
+  --gld-mid:#fef3c7;
+  --gld-bdr:#fcd34d;
+
+  /* Semantic */
+  --grn:    #059669;
+  --grn-lt: #ecfdf5;
+  --grn-bdr:#a7f3d0;
+  --red:    #dc2626;
+  --red-lt: #fef2f2;
+  --red-bdr:#fecaca;
+  --amb:    #d97706;
+  --amb-lt: #fffbeb;
+  --amb-bdr:#fde68a;
+  --pur:    #7c3aed;
+  --pur-lt: #f5f3ff;
+  --pur-bdr:#ddd6fe;
+  --tel:    #0891b2;
+  --tel-lt: #ecfeff;
+  --tel-bdr:#a5f3fc;
+
+  /* Text */
+  --txt:  #0f172a;
+  --txt2: #334155;
+  --txt3: #64748b;
+  --txt4: #94a3b8;
+
+  /* Borders */
+  --bdr:  #e2e8f0;
+  --bdr2: #cbd5e1;
+
+  /* Typography */
+  --fd: 'Playfair Display', Georgia, serif;
+  --fb: 'Inter', system-ui, sans-serif;
+  --fm: 'JetBrains Mono', monospace;
+
+  /* Layout */
+  --nav-h: 48px;
+  --max-w: 2400px;
+
+  /* Radii */
+  --r1: 4px;  --r2: 6px;  --r3: 10px;
+  --r4: 14px; --r5: 24px;
+
+  /* Shadows */
+  --sh1: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --sh2: 0 4px 12px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.04);
+  --sh3: 0 8px 32px rgba(0,0,0,.12);
+  --sh-nav: 0 2px 8px rgba(26,86,219,.10), 0 1px 3px rgba(0,0,0,.06);
+
+  /* Transitions */
+  --t: .15s cubic-bezier(.4,0,.2,1);
+}
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  font-size: clamp(13px, 0.9vw, 15px);
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--fb);
+  background: var(--bg1);
+  color: var(--txt);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body, #root {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar          { width: 5px; height: 5px; }
+::-webkit-scrollbar-track    { background: var(--bg2); }
+::-webkit-scrollbar-thumb    { background: var(--bdr2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--txt4); }
+
+/* Top primary nav — horizontal overflow: thin scrollbar, no layout jump */
+.top-nav-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.55) transparent;
+}
+.top-nav-scroll::-webkit-scrollbar {
+  height: 4px;
+}
+.top-nav-scroll::-webkit-scrollbar-track {
+  background: rgba(241, 245, 249, 0.9);
+  border-radius: 4px;
+  margin: 0 6px;
+}
+.top-nav-scroll::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.55);
+  border-radius: 4px;
+}
+.top-nav-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.75);
+}
+
+/* Dropdown — inline down-chevron next to label (reference-style) */
+.nav-dropdown-caret {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 3px;
+  flex-shrink: 0;
+  color: inherit;
+  opacity: 0.72;
+  line-height: 0;
+  transition: transform 0.2s ease, opacity 0.15s;
+}
+.nav-dropdown-chevron {
+  display: block;
+  vertical-align: middle;
+}
+.nav-dropdown-caret--open {
+  transform: rotate(180deg);
+}
+.nav-group-btn:hover .nav-dropdown-caret,
+.nav-group-btn[aria-expanded='true'] .nav-dropdown-caret {
+  opacity: 1;
+}
+
+/* Typography */
+button, input, select, textarea { font-family: var(--fb); }
+a       { color: var(--blu); text-decoration: none; }
+h1,h2,h3{ font-family: var(--fd); }
+
+/* Utility classes */
+.mono   { font-family: var(--fm); }
+.bold   { font-weight: 600; }
+.dim    { color: var(--txt3); }
+.hint   { color: var(--txt4); }
+
+/* ── Animations ───────────────────────────────────────────── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: .4; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes dropIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(.97); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes expandLine {
+  to { left: 8px; right: 8px; }
+}
+
+.spin        { animation: spin .7s linear infinite; }
+.pulse       { animation: pulse 1.5s infinite; }
+.fade-in     { animation: fadeIn .25s ease; }
+.slide-left  { animation: slideInLeft .2s ease; }
+
+/* ── Form inputs (global base) ──────────────────────────── */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+input[type="month"],
+input[type="tel"],
+input[type="search"],
+select,
+textarea {
+  font-family: var(--fb);
+  font-size: clamp(12px, .9vw, 13px);
+  color: var(--txt);
+  background: var(--bg);
+  border: 1px solid var(--bdr2);
+  border-radius: var(--r2);
+  outline: none;
+  transition: border-color var(--t), box-shadow var(--t);
+  width: 100%;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--blu);
+  box-shadow: 0 0 0 3px rgba(26,86,219,.1);
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  width: auto;
+  accent-color: var(--blu);
+}
+
+textarea { resize: vertical; }
+
+/* Settings — Policies (React Quill) */
+.policies-quill-wrap .ql-editor { min-height: 280px; }
+.policies-quill-wrap .ql-container { font-family: var(--fb), Inter, sans-serif; font-size: 0.95rem; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  :root { --nav-h: 44px; }
+}

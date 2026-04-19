@@ -1,0 +1,57 @@
+{
+  "name": "vahd-ahis-frontend",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^3.6.0",
+    "@tanstack/react-query": "^5.40.0",
+    "@tanstack/react-table": "^8.17.3",
+    "axios": "^1.7.2",
+    "date-fns": "^3.6.0",
+    "idb": "^8.0.0",
+    "leaflet": "^1.9.4",
+    "quill": "^2.0.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.51.5",
+    "react-hot-toast": "^2.4.1",
+    "react-quill": "^2.0.0",
+    "react-router-dom": "^6.23.1",
+    "recharts": "^2.12.7",
+    "workbox-background-sync": "^7.1.0",
+    "workbox-core": "^7.1.0",
+    "workbox-routing": "^7.1.0",
+    "workbox-strategies": "^7.1.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.4.5",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "react-scripts": "5.0.1",
+    "typescript": "~4.9.5"
+  },
+  "overrides": {
+    "yaml": "^2.4.2"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
