@@ -568,8 +568,8 @@ export default function EmployeesPage() {
               />
             )}
           </div>
-          <a href={`${(process.env.PUBLIC_URL||'').replace(/\/$/,'')}/employees_import_template.xlsx`} download="employees_import_template.xlsx" style={{ fontSize:11, color:'var(--blu)', alignSelf:'center' }}>Sample .xlsx</a>
-          <a href={`${(process.env.PUBLIC_URL||'').replace(/\/$/,'')}/employees_import_template.csv`}  download="employees_import_template.csv"  style={{ fontSize:11, color:'var(--blu)', alignSelf:'center' }}>Sample .csv</a>
+          <a href={`${(''||'').replace(/\/$/,'')}/employees_import_template.xlsx`} download="employees_import_template.xlsx" style={{ fontSize:11, color:'var(--blu)', alignSelf:'center' }}>Sample .xlsx</a>
+          <a href={`${(''||'').replace(/\/$/,'')}/employees_import_template.csv`}  download="employees_import_template.csv"  style={{ fontSize:11, color:'var(--blu)', alignSelf:'center' }}>Sample .csv</a>
           <Btn variant="primary" size="sm" onClick={openAdd}>+ Register Staff</Btn>
         </>}/>
 

@@ -31,10 +31,10 @@ function normalizeApiBase(raw) {
   return u;
 }
 
-const BASE_URL = normalizeApiBase(process.env.REACT_APP_API_URL);
-if (process.env.NODE_ENV === 'production' && /localhost|127\.0\.0\.1/i.test(BASE_URL)) {
+const BASE_URL = normalizeApiBase(import.meta.env.VITE_API_URL);
+if (import.meta.env.MODE === 'production' && /localhost|127\.0\.0\.1/i.test(BASE_URL)) {
   console.error(
-    '[VAHD] API calls use localhost — set REACT_APP_API_URL in Vercel → Project → Settings → Environment Variables, then redeploy the frontend.'
+    '[VAHD] API calls use localhost — set VITE_API_URL in Vercel → Project → Settings → Environment Variables, then redeploy the frontend.'
   );
 }
 const SYNC_INTERVAL_MS = 5 * 60 * 1000;   // 5 minutes
