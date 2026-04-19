@@ -987,7 +987,7 @@ function SettingSubPage({ config, onBack }) {
                   ⬆ Import Farmers
                 </Btn>
                 <a
-                  href={`${(process.env.PUBLIC_URL || '').replace(/\/$/, '')}/farmers_import_template.xlsx`}
+                  href={`${('' || '').replace(/\/$/, '')}/farmers_import_template.xlsx`}
                   download="farmers_import_template.xlsx"
                   style={{
                     fontSize: 11, fontWeight: 600, color: 'var(--grn)',
@@ -999,7 +999,7 @@ function SettingSubPage({ config, onBack }) {
                   ⬇ Sample .xlsx
                 </a>
                 <a
-                  href={`${(process.env.PUBLIC_URL || '').replace(/\/$/, '')}/farmers_import_template.csv`}
+                  href={`${('' || '').replace(/\/$/, '')}/farmers_import_template.csv`}
                   download="farmers_import_template.csv"
                   style={{ fontSize: 11, color: 'var(--blu)', alignSelf: 'center' }}
                 >
@@ -1049,14 +1049,14 @@ function SettingSubPage({ config, onBack }) {
                   )}
                 </div>
                 <a
-                  href={`${(process.env.PUBLIC_URL || '').replace(/\/$/, '')}/${config.importTemplatePrefix}.xlsx`}
+                  href={`${('' || '').replace(/\/$/, '')}/${config.importTemplatePrefix}.xlsx`}
                   download={`${config.importTemplatePrefix}.xlsx`}
                   style={{ fontSize: 11, color: 'var(--blu)', alignSelf: 'center' }}
                 >
                   Sample .xlsx
                 </a>
                 <a
-                  href={`${(process.env.PUBLIC_URL || '').replace(/\/$/, '')}/${config.importTemplatePrefix}.csv`}
+                  href={`${('' || '').replace(/\/$/, '')}/${config.importTemplatePrefix}.csv`}
                   download={`${config.importTemplatePrefix}.csv`}
                   style={{ fontSize: 11, color: 'var(--blu)', alignSelf: 'center' }}
                 >

@@ -10,7 +10,7 @@ function loginErrorMessage(err) {
   const fromApi = (typeof d?.error === 'string' && d.error) || (typeof d?.detail === 'string' && d.detail);
   if (fromApi) return fromApi;
   if (!err?.response && err?.message) {
-    return `Cannot reach API (${process.env.REACT_APP_API_URL || 'http://localhost:4000/api/v1'}). Start the backend and confirm the URL.`;
+    return `Cannot reach API (${import.meta.env.VITE_API_URL || 'http://localhost:4000/api/v1'}). Start the backend and confirm the URL.`;
   }
   return 'Invalid email or password.';
 }
@@ -88,7 +88,7 @@ export default function LoginPage() {
             {loading ? 'Signing in…' : 'Sign In'}
           </button>
 
-          {process.env.REACT_APP_DEMO_LOGIN === 'true' && (
+          {import.meta.env.VITE_DEMO_LOGIN === 'true' && (
           <div style={{ marginTop: 22 }}>
             <div style={{ fontSize: 10, color: 'var(--txt3)', textTransform: 'uppercase', letterSpacing: '.05em', fontWeight: 600, marginBottom: 10 }}>Demo only (no JWT)</div>
             {DEMO_USERS.map(u => (
@@ -110,7 +110,7 @@ export default function LoginPage() {
             ))}
           </div>
           )}
-          {process.env.REACT_APP_DEMO_LOGIN !== 'true' && (
+          {import.meta.env.VITE_DEMO_LOGIN !== 'true' && (
             <p style={{ marginTop: 20, fontSize: 11, color: 'var(--txt3)', lineHeight: 1.5 }}>
               Sign in with a real account from the database. After migrations, try{' '}
               <strong style={{ color: 'var(--txt2)' }}>admin@vahd.gov.in</strong> / <strong style={{ color: 'var(--txt2)' }}>Admin@123</strong>{' '}

@@ -14,7 +14,7 @@ import { findDemoCredential, buildDemoSessionUser } from '../constants/demoUsers
 const AuthCtx = createContext(null);
 
 function allowDemoLoginFallback() {
-  return process.env.REACT_APP_DEMO_LOGIN === 'true';
+  return import.meta.env.VITE_DEMO_LOGIN === 'true';
 }
 
 export function AuthProvider({ children }) {

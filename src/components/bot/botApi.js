@@ -12,13 +12,13 @@
 import axios from 'axios';
 
 const BASE_URL = (() => {
-  const raw = process.env.REACT_APP_API_URL || 'http://localhost:4000/api/v1';
+  const raw = import.meta.env.VITE_API_URL || 'http://localhost:4000/api/v1';
   const u = raw.trim().replace(/\/+$/, '');
   return /\/api\/v1$/i.test(u) ? u : `${u}/api/v1`;
 })();
 
-const BOT_EMAIL    = process.env.REACT_APP_BOT_EMAIL    || 'admin@vahd.gov.in';
-const BOT_PASSWORD = process.env.REACT_APP_BOT_PASSWORD || 'Admin@123';
+const BOT_EMAIL    = import.meta.env.VITE_BOT_EMAIL    || 'admin@vahd.gov.in';
+const BOT_PASSWORD = import.meta.env.VITE_BOT_PASSWORD || 'Admin@123';
 
 // ── In-memory token store (never touches IndexedDB / user session) ─
 let _accessToken  = null;

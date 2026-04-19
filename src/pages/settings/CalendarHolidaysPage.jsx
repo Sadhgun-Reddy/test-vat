@@ -260,7 +260,7 @@ export default function CalendarHolidaysPage({ config, onBack }) {
     return out;
   }, [y0]);
 
-  const tplBase = `${(process.env.PUBLIC_URL || '').replace(/\/$/, '')}/calendar_holidays_import_template.csv`;
+  const tplBase = `${('' || '').replace(/\/$/, '')}/calendar_holidays_import_template.csv`;
 
   return (
     <PageWrap>
