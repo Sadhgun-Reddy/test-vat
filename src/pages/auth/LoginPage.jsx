@@ -10,7 +10,7 @@ function loginErrorMessage(err) {
   const fromApi = (typeof d?.error === 'string' && d.error) || (typeof d?.detail === 'string' && d.detail);
   if (fromApi) return fromApi;
   if (!err?.response && err?.message) {
-    return `Cannot reach API (${import.meta.env.VITE_API_URL || 'http://localhost:4000/api/v1'}). Start the backend and confirm the URL.`;
+    return `Cannot reach API (${import.meta.env.VITE_API_URL || 'http://193.203.162.8/api/v1'}). Start the backend and confirm the URL.`;
   }
   return 'Invalid email or password.';
 }

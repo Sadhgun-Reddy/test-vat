@@ -24,7 +24,7 @@ import {
 
 /** Ensures requests hit `/api/v1/...` when env is only host:port (common misconfig → 404). */
 function normalizeApiBase(raw) {
-  const fallback = 'http://localhost:4000/api/v1';
+  const fallback = 'http://193.203.162.8/api/v1';
   let u = String(raw || fallback).trim();
   u = u.replace(/\/+$/, '');
   if (!/\/api\/v1$/i.test(u)) u = `${u}/api/v1`;
