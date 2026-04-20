@@ -1,7 +1,7 @@
 // src/components/layout/TopNav.jsx
 import React, { useState, useRef, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../store/AuthContext';
+import { useAuthContext } from '../../store/AuthContext';
 import { useSync } from '../../store/SyncContext';
 import { useDropdownPosition } from '../../hooks/useDropdownPosition';
 
@@ -58,13 +58,14 @@ const NAV_ITEMS = [
 
 const DROPDOWN_ICON_BG = ['#ede9fe', '#dbeafe', '#ffedd5', '#e0f2fe', '#d1fae5', '#fce7f3'];
 
-function NavGroup({ item }) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef();
-  const btnRef = useRef();
+function NavGroup({ item }: { item: any }): JSX.Element {
+  const [open, setOpen] = useState<boolean>(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
   const pos = useDropdownPosition(open, btnRef);
+
   useEffect(() => {
-    const h = e => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+    const h = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false); };
     document.addEventListener('mousedown', h);
     return () => document.removeEventListener('mousedown', h);
   }, []);
@@ -173,16 +174,16 @@ function NavGroup({ item }) {
   );
 }
 
-export default function TopNav() {
-  const { user, logout } = useAuth();
+export default function TopNav(): JSX.Element {
+  const { user, logout } = useAuthContext();
   const { pendingCount, isSyncing, triggerSync } = useSync();
   const navigate = useNavigate();
-  const [showUser, setShowUser] = useState(false);
-  const userRef = useRef();
+  const [showUser, setShowUser] = useState<boolean>(false);
+  const userRef = useRef<HTMLDivElement>(null);
   const today = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
 
   useEffect(() => {
-    const h = e => { if (userRef.current && !userRef.current.contains(e.target)) setShowUser(false); };
+    const h = (e: MouseEvent) => { if (userRef.current && !userRef.current.contains(e.target as Node)) setShowUser(false); };
     document.addEventListener('mousedown', h);
     return () => document.removeEventListener('mousedown', h);
   }, []);

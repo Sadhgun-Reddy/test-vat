@@ -1,10 +1,9 @@
-// src/pages/dashboard/DashboardPage.jsx
+// src/pages/dashboard/DashboardPage.tsx
 import React, { useMemo } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../store/AuthContext';
+import { useAuthContext } from '../../store/AuthContext';
 import { useSync } from '../../store/SyncContext';
-import { syncManager } from '../../sync/syncManager';
+import { useDashboard } from '../../hooks/api/useDashboard';
 import {
   PageWrap, PageHead, KPIGrid, KPICard,
   Card, CardHead, CardBody, Badge, DataTable,
@@ -15,7 +14,7 @@ import TelanganaMap from './TelanganaMap';
 const fmtDate = d => d ? new Date(d).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '—';
 
 export default function DashboardPage() {
-  const { user } = useAuth();
+  const { user } = useAuthContext();
   const { isOnline, pendingCount, isSyncing, triggerSync } = useSync();
   const navigate = useNavigate();
 
@@ -24,25 +23,17 @@ export default function DashboardPage() {
     return h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
   }, []);
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['dashboard'],
-    queryFn: async () => {
-      const { data } = await syncManager.api.get('/dashboard');
-      return data;
-    },
-    enabled: isOnline,
-    refetchInterval: 60_000,
-  });
+  const { data, isLoading } = useDashboard();
 
-  const kpis = data?.kpis || {};
+  const kpis = data?.kpis || {} as any;
   const districtActivity = data?.district_activity || [];
   const outcomes         = data?.outcomes          || [];
   const recentCases      = data?.recent_cases      || [];
 
   // Build outcome map
   const outcomeMap = useMemo(() => {
-    const m = { recovered: 0, referred: 0, died: 0, ongoing: 0 };
-    outcomes.forEach(o => { m[o.outcome] = parseInt(o.cnt); });
+    const m: Record<string, number> = { recovered: 0, referred: 0, died: 0, ongoing: 0 };
+    outcomes.forEach((o: any) => { m[o.outcome] = parseInt(String(o.cnt), 10); });
     return m;
   }, [outcomes]);
 
@@ -50,6 +41,7 @@ export default function DashboardPage() {
 
   return (
     <PageWrap>
+      {/* @ts-expect-error Untyped */}
       <PageHead
         title={`${greet}, ${user?.name?.split(' ')[2] || 'Officer'}`}
         subtitle={`VAHD AHIS · ${new Date().toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`}
@@ -75,21 +67,21 @@ export default function DashboardPage() {
       <KPIGrid>
         <KPICard label="Cases Today"     value={kpis.cases_today ?? '—'}     sub={`Total: ${kpis.cases_total ?? '—'}`}   delta="↑ 12%" color="blue"   onClick={() => navigate('/cases')} />
         <KPICard label="Vaccinations"    value={kpis.vacc_today ?? '—'}      sub="Today"                                   delta="↑ 8%"  color="green"  onClick={() => navigate('/vaccinations')} />
-        <KPICard label="A.I. Done"       value={kpis.ai_today ?? '—'}        sub="Today · 94% success"                                  color="gold"   onClick={() => navigate('/ai-service')} />
-        <KPICard label="Dewormings"      value={kpis.deworming_today ?? '—'} sub="Today"                                                color="amber"  onClick={() => navigate('/deworming')} />
+        <KPICard label="A.I. Done"       value={kpis.ai_today ?? '—'}        sub="Today · 94% success"                 delta={null} color="gold"   onClick={() => navigate('/ai-service')} />
+        <KPICard label="Dewormings"      value={kpis.deworming_today ?? '—'} sub="Today"                               delta={null} color="amber"  onClick={() => navigate('/deworming')} />
         <KPICard
           label="Staff Present"
           value={kpis.staff_present != null && kpis.staff_total ? `${kpis.staff_present}/${kpis.staff_total}` : '—'}
           sub={kpis.staff_total ? `${Math.round(kpis.staff_present/kpis.staff_total*100)}% attendance` : ''}
-          color="purple" onClick={() => navigate('/attendance')}
+          delta={null} color="purple" onClick={() => navigate('/attendance')}
         />
         <KPICard
           label="Recovery Rate"
           value={totalCases ? `${Math.round(outcomeMap.recovered/totalCases*100)}%` : '—'}
-          sub="All cases" delta="↑ 3%" color="green"
+          sub="All cases" delta="↑ 3%" color="green" onClick={() => navigate('/cases')}
         />
-        <KPICard label="Pending Sync" value={pendingCount} sub="offline records" color={pendingCount > 0 ? 'amber' : 'teal'} onClick={() => navigate('/sync')} />
-        <KPICard label="Data Sync" value={isOnline ? 'Online' : 'Offline'} sub={pendingCount > 0 ? `${pendingCount} queued` : 'All synced'} color={isOnline ? 'green' : 'red'} />
+        <KPICard label="Pending Sync" value={pendingCount} sub="offline records" delta={null} color={pendingCount > 0 ? 'amber' : 'teal'} onClick={() => navigate('/sync')} />
+        <KPICard label="Data Sync" value={isOnline ? 'Online' : 'Offline'} sub={pendingCount > 0 ? `${pendingCount} queued` : 'All synced'} delta={null} color={isOnline ? 'green' : 'red'} onClick={() => navigate('/sync')} />
       </KPIGrid>
 
       {/* Telangana Map — full width */}
@@ -100,25 +92,30 @@ export default function DashboardPage() {
       {/* Two-column layout */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
         {/* District Activity */}
+        {/* @ts-expect-error Untyped */}
         <Card>
+          {/* @ts-expect-error Untyped */}
           <CardHead title="District Activity" sub="Last 30 days — cases + vaccinations" />
           <DataTable
             loading={isLoading}
             columns={[
-              { header: '#', key: '_i', render: (_, __, i) => <span style={{ color: 'var(--txt3)', fontSize: 11 }}>{i+1}</span> },
-              { header: 'District',      key: 'district', render: v => <strong style={{ fontSize: 12 }}>{v}</strong> },
-              { header: 'Cases',         key: 'cases',    render: v => <span style={{ fontFamily: 'var(--fm)', color: 'var(--blu)', fontWeight: 700 }}>{v}</span> },
-              { header: 'Vacc.',         key: 'vacc',     render: v => <span style={{ fontFamily: 'var(--fm)', color: 'var(--grn)', fontWeight: 700 }}>{v}</span> },
-              { header: 'A.I.',          key: 'ai_done',  render: v => <span style={{ fontFamily: 'var(--fm)' }}>{v}</span> },
+              { header: '#', key: '_i', render: (_: any, __: any, i: number) => <span style={{ color: 'var(--txt3)', fontSize: 11 }}>{i+1}</span> },
+              { header: 'District',      key: 'district', render: (v: any) => <strong style={{ fontSize: 12 }}>{v}</strong> },
+              { header: 'Cases',         key: 'cases',    render: (v: any) => <span style={{ fontFamily: 'var(--fm)', color: 'var(--blu)', fontWeight: 700 }}>{v}</span> },
+              { header: 'Vacc.',         key: 'vacc',     render: (v: any) => <span style={{ fontFamily: 'var(--fm)', color: 'var(--grn)', fontWeight: 700 }}>{v}</span> },
+              { header: 'A.I.',          key: 'ai_done',  render: (v: any) => <span style={{ fontFamily: 'var(--fm)' }}>{v}</span> },
             ]}
-            data={districtActivity.map((r, i) => ({ ...r, _i: i + 1 }))}
+            data={districtActivity.map((r: any, i: number) => ({ ...r, _i: i + 1 }))}
             emptyMsg={!isOnline ? 'Go online to view district data' : 'No data yet'}
           />
         </Card>
 
         {/* Case Outcomes */}
+        {/* @ts-expect-error Untyped */}
         <Card>
+          {/* @ts-expect-error Untyped */}
           <CardHead title="Case Outcomes" sub={`${totalCases} total recorded cases`} />
+          {/* @ts-expect-error Untyped */}
           <CardBody>
             {[
               { label: 'Recovered', key: 'recovered', color: 'var(--grn)' },
@@ -147,6 +144,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Recent Cases */}
+      {/* @ts-expect-error Untyped */}
       <Card>
         <CardHead title="Recent Cases" sub="Last 10 records">
           <button onClick={() => navigate('/cases')} style={{ background: 'none', border: 'none', color: 'var(--blu)', fontSize: 12, cursor: 'pointer', fontFamily: 'var(--fb)' }}>
@@ -156,12 +154,12 @@ export default function DashboardPage() {
         <DataTable
           loading={isLoading}
           columns={[
-            { header: 'Case No.',   key: 'case_number',      render: v => <span style={{ fontFamily: 'var(--fm)', color: 'var(--blu)', fontSize: 11, fontWeight: 700 }}>{v}</span> },
-            { header: 'Farmer',     key: 'farmer_name',      render: (v, r) => <div><strong style={{ fontSize: 12 }}>{v}</strong><div style={{ fontSize: 10, color: 'var(--txt3)' }}>{r.district}</div></div> },
-            { header: 'Animal',     key: 'animal_type',      render: v => <Badge>{v}</Badge> },
-            { header: 'Outcome',    key: 'outcome',          render: v => <Badge color={outcomeColor(v)}>{v}</Badge> },
-            { header: 'Date',       key: 'date_of_treatment',render: v => <span style={{ fontSize: 11, color: 'var(--txt3)' }}>{fmtDate(v)}</span> },
-            { header: 'Sync',       key: 'sync_status',      render: v => <Badge color={syncColor(v)}>{v === 'synced' ? '✓' : '⟳'}</Badge> },
+            { header: 'Case No.',   key: 'case_number',      render: (v: any) => <span style={{ fontFamily: 'var(--fm)', color: 'var(--blu)', fontSize: 11, fontWeight: 700 }}>{v}</span> },
+            { header: 'Farmer',     key: 'farmer_name',      render: (v: any, r: any) => <div><strong style={{ fontSize: 12 }}>{v}</strong><div style={{ fontSize: 10, color: 'var(--txt3)' }}>{r.district}</div></div> },
+            { header: 'Animal',     key: 'animal_type',      render: (v: any) => <Badge style={{}}>{v}</Badge> },
+            { header: 'Outcome',    key: 'outcome',          render: (v: any) => <Badge style={{}} color={outcomeColor(v)}>{v}</Badge> },
+            { header: 'Date',       key: 'date_of_treatment',render: (v: any) => <span style={{ fontSize: 11, color: 'var(--txt3)' }}>{fmtDate(v)}</span> },
+            { header: 'Sync',       key: 'sync_status',      render: (v: any) => <Badge style={{}} color={syncColor(v)}>{v === 'synced' ? '✓' : '⟳'}</Badge> },
           ]}
           data={recentCases}
           emptyMsg={!isOnline ? 'Go online to view recent cases' : 'No cases yet'}

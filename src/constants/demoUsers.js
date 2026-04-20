@@ -18,6 +18,10 @@ export function buildDemoSessionUser(demo) {
     id: `demo-${demo.email.replace(/[^a-z0-9]+/gi, '-')}`,
     email: demo.email,
     name: demo.name,
+    username: demo.email,
+    designation: demo.roleLabel,
     role: demo.role,
+    permissions: [],
+    token: 'demo-token',
   };
 }

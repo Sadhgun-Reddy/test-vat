@@ -165,3 +165,11 @@ export const useBudgetAllocationsForIndent = (
     enabled: options?.enabled,
   });
 };
+
+export const useFormTypes = () => {
+  return useQuery({
+    queryKey: queryKeys.settings.formTypes(),
+    queryFn: settingsService.getFormTypes,
+    staleTime: Infinity,
+  });
+};

@@ -3,6 +3,7 @@ import { ID } from './api.types';
 export type Drug = {
   id: ID;
   name: string;
+  code?: string;
   genericName?: string;
   category: string;
   unit: string;

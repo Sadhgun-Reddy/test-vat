@@ -2,6 +2,9 @@
 // and makes invalidation predictable
 
 export const queryKeys = {
+  dashboard: {
+    data: () => ['dashboard', 'data'] as const,
+  },
   // Auth
   auth: {
     currentUser: () => ['auth', 'currentUser'] as const,
@@ -67,5 +70,6 @@ export const queryKeys = {
     institutionTypes: () => ['settings', 'institution-types'] as const,
     placesOfWorking: (filters?: any) => ['settings', 'places-of-working', filters] as const,
     budgetForIndent: (filters?: any) => ['settings', 'budgetForIndent', filters] as const,
+    formTypes: () => ['settings', 'form-types'] as const,
   },
 } as const;

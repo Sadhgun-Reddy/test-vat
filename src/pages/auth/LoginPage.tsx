@@ -1,35 +1,35 @@
-// src/pages/auth/LoginPage.jsx
 import React, { useState } from 'react';
-import { useAuth } from '../../store/AuthContext';
+import { useAuthContext } from '../../store/AuthContext';
 import { getDeviceId } from '../../sync/offlineStore';
 import { DEMO_USERS } from '../../constants/demoUsers';
 import toast from 'react-hot-toast';
 
-function loginErrorMessage(err) {
+function loginErrorMessage(err: any): string {
   const d = err?.response?.data;
   const fromApi = (typeof d?.error === 'string' && d.error) || (typeof d?.detail === 'string' && d.detail);
   if (fromApi) return fromApi;
   if (!err?.response && err?.message) {
+    // @ts-expect-error import.meta
     return `Cannot reach API (${import.meta.env.VITE_API_URL || 'http://193.203.162.8/api/v1'}). Start the backend and confirm the URL.`;
   }
   return 'Invalid email or password.';
 }
 
-export default function LoginPage() {
-  const { login } = useAuth();
-  const [email, setEmail]     = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError]     = useState('');
+export default function LoginPage(): JSX.Element {
+  const { login } = useAuthContext();
+  const [email, setEmail]     = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError]     = useState<string>('');
 
-  const handleLogin = async () => {
+  const handleLogin = async (): Promise<void> => {
     if (!email || !password) { setError('Email and password required'); return; }
     setError(''); setLoading(true);
     try {
       const deviceId = await getDeviceId();
       const result = await login(email, password, deviceId);
       toast.success(result?.demo ? 'Signed in with demo account (no real API session).' : 'Welcome back!');
-    } catch (err) {
+    } catch (err: any) {
       setError(loginErrorMessage(err));
     } finally {
       setLoading(false);
@@ -59,15 +59,15 @@ export default function LoginPage() {
         <div style={{ padding: 28 }}>
           <div style={{ marginBottom: 14 }}>
             <label style={{ display: 'block', fontSize: 10, fontWeight: 600, color: 'var(--txt2)', textTransform: 'uppercase', letterSpacing: '.05em', marginBottom: 5 }}>Email Address</label>
-            <input type="email" value={email} onChange={e => setEmail(e.target.value)}
+            <input type="email" value={email} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
               placeholder="you@vahd.gov.in"
               style={{ width: '100%', padding: '9px 12px', border: '1px solid var(--bdr2)', borderRadius: 6, fontSize: 13, color: 'var(--txt)', background: 'var(--bg)', outline: 'none', boxSizing: 'border-box' }}
             />
           </div>
           <div style={{ marginBottom: 18 }}>
             <label style={{ display: 'block', fontSize: 10, fontWeight: 600, color: 'var(--txt2)', textTransform: 'uppercase', letterSpacing: '.05em', marginBottom: 5 }}>Password</label>
-            <input type="password" value={password} onChange={e => setPassword(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && handleLogin()}
+            <input type="password" value={password} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+              onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => e.key === 'Enter' && handleLogin()}
               style={{ width: '100%', padding: '9px 12px', border: '1px solid var(--bdr2)', borderRadius: 6, fontSize: 13, color: 'var(--txt)', background: 'var(--bg)', outline: 'none', boxSizing: 'border-box' }}
             />
           </div>
@@ -88,10 +88,11 @@ export default function LoginPage() {
             {loading ? 'Signing in…' : 'Sign In'}
           </button>
 
+          {/* @ts-expect-error import.meta */}
           {import.meta.env.VITE_DEMO_LOGIN === 'true' && (
           <div style={{ marginTop: 22 }}>
             <div style={{ fontSize: 10, color: 'var(--txt3)', textTransform: 'uppercase', letterSpacing: '.05em', fontWeight: 600, marginBottom: 10 }}>Demo only (no JWT)</div>
-            {DEMO_USERS.map(u => (
+            {DEMO_USERS.map((u: any) => (
               <div key={u.email} onClick={() => { setEmail(u.email); setPassword(u.password); }}
                 style={{
                   display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px',
@@ -110,6 +111,7 @@ export default function LoginPage() {
             ))}
           </div>
           )}
+          {/* @ts-expect-error import.meta */}
           {import.meta.env.VITE_DEMO_LOGIN !== 'true' && (
             <p style={{ marginTop: 20, fontSize: 11, color: 'var(--txt3)', lineHeight: 1.5 }}>
               Sign in with a real account from the database. After migrations, try{' '}
