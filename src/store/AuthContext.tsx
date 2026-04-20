@@ -1,5 +1,6 @@
-// src/store/AuthContext.jsx
+// src/store/AuthContext.tsx
 import React, { createContext, useContext, useState, useCallback, useEffect, useMemo } from 'react';
+import { AuthUser } from '../services/types/auth.types';
 import { syncManager } from '../sync/syncManager';
 import {
   saveTokens,
@@ -11,15 +12,25 @@ import {
 } from '../sync/offlineStore';
 import { findDemoCredential, buildDemoSessionUser } from '../constants/demoUsers';
 
-const AuthCtx = createContext(null);
+export type AuthContextValue = {
+  user: AuthUser | null;
+  isAuthenticated: boolean;
+  loading: boolean;
+  isDemoSession: boolean;
+  login: (email: string, password?: string, deviceId?: string) => Promise<any>;
+  logout: () => Promise<void>;
+};
+
+const AuthCtx = createContext<AuthContextValue | null>(null);
 
 function allowDemoLoginFallback() {
+  // @ts-expect-error NodeNext restricts import.meta usage, but Vite replaces this at build time
   return import.meta.env.VITE_DEMO_LOGIN === 'true';
 }
 
-export function AuthProvider({ children }) {
-  const [user, setUser]         = useState(null);
-  const [loading, setLoading]   = useState(true);
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [user, setUser] = useState<AuthUser | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const isDemoSession = useMemo(
     () => !!user?.id && String(user.id).startsWith('demo-'),
@@ -97,8 +108,10 @@ export function AuthProvider({ children }) {
   );
 }
 
-export const useAuth = () => {
+export const useAuth = (): AuthContextValue => {
   const ctx = useContext(AuthCtx);
   if (!ctx) throw new Error('useAuth must be used within AuthProvider');
   return ctx;
 };
+
+export const useAuthContext = useAuth;

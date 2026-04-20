@@ -89,3 +89,8 @@ export type BudgetAllocationForIndent = {
   usedAmount: number;
   availableAmount: number;
 };
+
+export type FormType = {
+  id: ID;
+  name: string;
+};

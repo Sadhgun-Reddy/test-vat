@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { PageHead } from '../../components/ui';
 import { PageWrap } from '../../components/ui';
-import BudgetAllocationsPage from '../../pages/settings/BudgetAllocationsPage';
+import BudgetAllocationsPage from '../budget/BudgetAllocationsPage';
 import CalendarHolidaysPage from '../../pages/settings/CalendarHolidaysPage';
 import InstitutionSettingsPage from '../../pages/settings/InstitutionSettingsPage';
 // We import the custom pages from the old locations or their respective feature folders

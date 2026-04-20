@@ -1,5 +1,5 @@
 import { ID, QueryFilters } from '../types/api.types';
-import { Budget, Designation, Institution, Policy } from '../types/settings.types';
+import { Budget, Designation, Institution, Policy, FormType } from '../types/settings.types';
 import { apiClient, ApiResponse, PaginatedResponse } from './client';
 
 // --- Institutions ---
@@ -138,5 +138,10 @@ export const getBudgetAllocationsForIndent = async (filters?: {
     '/settings/budget-allocations/for-indent',
     { params: filters }
   );
+  return data.data;
+};
+
+export const getFormTypes = async (): Promise<FormType[]> => {
+  const { data } = await apiClient.get<ApiResponse<FormType[]>>('/settings/form-types');
   return data.data;
 };

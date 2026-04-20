@@ -6,3 +6,4 @@ export * from './useEmployees';
 export * from './useFarmers';
 export * from './useProcurement';
 export * from './useSettings';
+export * from './useDashboard';

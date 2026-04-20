@@ -9,6 +9,8 @@ export type AuthUser = {
   id: ID;
   name: string;
   username: string;
+  email?: string;
+  role?: string;
   designation: string;
   district?: string;
   mandal?: string;

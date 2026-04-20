@@ -6,7 +6,7 @@ import TopNav from './TopNav';
 import OfflineBanner from './OfflineBanner';
 import InternalBot from '../bot/InternalBot';
 
-export default function AppShell() {
+export default function AppShell(): JSX.Element {
   const { isOnline, pendingCount } = useSync();
 
   return (

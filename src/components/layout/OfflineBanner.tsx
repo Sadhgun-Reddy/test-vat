@@ -1,7 +1,11 @@
-// src/components/layout/OfflineBanner.jsx
+// src/components/layout/OfflineBanner.tsx
 import React from 'react';
 
-export default function OfflineBanner({ pendingCount }) {
+type OfflineBannerProps = {
+  pendingCount: number;
+};
+
+export default function OfflineBanner({ pendingCount }: OfflineBannerProps): JSX.Element {
   return (
     <div
       style={{
