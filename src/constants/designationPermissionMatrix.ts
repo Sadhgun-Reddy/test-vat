@@ -5,7 +5,19 @@
 const V = ['view'];
 const CRUD = ['view', 'add', 'edit', 'delete'];
 
-export const DESIGNATION_PERMISSION_MATRIX = [
+export type PermissionRow = {
+  id: string;
+  label: string;
+  modes: string[];
+  import?: boolean;
+};
+
+export type PermissionSection = {
+  section: string;
+  rows: PermissionRow[];
+};
+
+export const DESIGNATION_PERMISSION_MATRIX: PermissionSection[] = [
   {
     section: 'Dashboard',
     rows: [{ id: 'dashboard', label: 'Dashboard', modes: V }],

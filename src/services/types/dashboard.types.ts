@@ -15,7 +15,7 @@ export type DashboardDistrictActivity = {
   cases: number;
   vacc: number;
   ai_done: number;
-  [key: string]: any; // Added for any Leaflet mapping compatibility
+  [key: string]: string | number;
 };
 
 export type DashboardOutcome = {

@@ -3,7 +3,21 @@ import { DESIGNATION_PERMISSION_MATRIX } from '../../constants/designationPermis
 
 const FLAGS = ['view', 'add', 'edit', 'delete'];
 
-function FlagCell({ value, rowId, flag, onToggle, enabled }) {
+type PermissionsMap = {
+  [rowId: string]: {
+    [flag: string]: boolean;
+  };
+};
+
+type FlagCellProps = {
+  value: PermissionsMap;
+  rowId: string;
+  flag: string;
+  onToggle: (rowId: string, flag: string) => void;
+  enabled: boolean;
+};
+
+function FlagCell({ value, rowId, flag, onToggle, enabled }: FlagCellProps): JSX.Element {
   if (!enabled) {
     return (
       <td
@@ -29,10 +43,15 @@ function FlagCell({ value, rowId, flag, onToggle, enabled }) {
   );
 }
 
-export function DesignationPermissionMatrix({ value, onChange }) {
-  const v = value && typeof value === 'object' ? value : {};
+export type DesignationPermissionMatrixProps = {
+  value: unknown;
+  onChange: (value: PermissionsMap) => void;
+};
 
-  const onToggle = (rowId, flag) => {
+export function DesignationPermissionMatrix({ value, onChange }: DesignationPermissionMatrixProps): JSX.Element {
+  const v = (value && typeof value === 'object' ? value : {}) as PermissionsMap;
+
+  const onToggle = (rowId: string, flag: string) => {
     const row = { ...(v[rowId] || {}) };
     const nextVal = !row[flag];
     row[flag] = nextVal;
