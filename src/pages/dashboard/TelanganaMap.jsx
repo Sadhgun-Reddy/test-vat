@@ -1,6 +1,19 @@
 // src/pages/dashboard/TelanganaMap.jsx
 import React, { useEffect, useRef, useState } from 'react';
+import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+
+// Fix default icon path broken by build tools
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
 
 // ── DATA ─────────────────────────────────────────────────────────────────────
 
@@ -80,17 +93,6 @@ export default function TelanganaMap({ districtActivity = [] }) {
 
   useEffect(() => {
     if (mapRef.current || !containerRef.current) return;
-
-    // Dynamic import to avoid SSR issues
-    const L = require('leaflet');
-
-    // Fix default icon path broken by Webpack
-    delete L.Icon.Default.prototype._getIconUrl;
-    L.Icon.Default.mergeOptions({
-      iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-      iconUrl:       require('leaflet/dist/images/marker-icon.png'),
-      shadowUrl:     require('leaflet/dist/images/marker-shadow.png'),
-    });
 
     const map = L.map(containerRef.current, {
       center: [17.8, 79.2], zoom: 7,
@@ -235,10 +237,8 @@ export default function TelanganaMap({ districtActivity = [] }) {
 
   return (
     <div style={{ position:'relative', borderRadius:10, overflow:'hidden', border:'1px solid var(--bdr)', background:'#f0f4f8', height: 520 }}>
-      {/* Leaflet map container */}
       <div ref={containerRef} style={{ position:'absolute', inset:0 }} />
 
-      {/* Layer panel — top-right, matches screenshot */}
       <div style={{
         position:'absolute', right:14, top:14, zIndex:500,
         background:'rgba(255,255,255,0.97)',
@@ -279,7 +279,6 @@ export default function TelanganaMap({ districtActivity = [] }) {
             {count != null && (
               <span style={{ fontSize:10, color:'var(--txt3)', background:'rgba(0,0,0,0.05)', borderRadius:999, padding:'1px 6px' }}>{count}</span>
             )}
-            {/* Toggle switch */}
             <div style={{
               width:30, height:16, borderRadius:999,
               background: layerOn[key] ? '#1a73e8' : 'rgba(0,0,0,0.15)',

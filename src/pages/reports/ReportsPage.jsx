@@ -36,6 +36,13 @@ const REPORT_GROUPS = [
       { id: 'district-abstract',   label: 'District Wise Abstract Report',      icon: '📊', desc: 'Cases, vaccinations, A.I. per district' },
     ],
   },
+  {
+    title: 'Employee Reports',
+    icon: '👥',
+    reports: [
+      { id: 'employee-details', label: 'Employee Details', icon: '👤', desc: 'Employee details' },
+    ],
+  },
 ];
 
 function ReportCard({ report, onClick }) {
